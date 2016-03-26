@@ -1,5 +1,5 @@
 import React from 'react'
-var Firebase = require('firebase');
+//var Firebase = require('firebase');
 class Product extends React.Component {
 
   constructor(props) {
@@ -10,7 +10,7 @@ class Product extends React.Component {
   //  this
     this.state.PRODUCTS = [];
 
-  /*  this.state.PRODUCTS = [
+    this.state.PRODUCTS = [
       {
         id: 1,
         category: 'Sporting Goods',
@@ -48,22 +48,13 @@ class Product extends React.Component {
         qty: 23,
         name: 'Nexu 7'
       }
-    ];*/
+    ];
     //  this.handleProductTable = this.handleProductTable.bind(this);
 
   }
 
   componentWillMount() {
-    this.firebaseRef = new Firebase("https://crackling-inferno-7161.firebaseio.com/");
-  //  this.firebaseRef.set(this.state.PRODUCTS);
-    this.firebaseRef.on("value", function(dataSnapshot) {
-    //  this.state.PRODUCTS.push(dataSnapshot.val());
-    this.state.PRODUCTS = dataSnapshot.val();
-       this.setState(  this.state.PRODUCTS );
-      //  console.log("loading data ");
-      console.log(dataSnapshot.val());
 
-    }.bind(this));
   }
   handleProductTable(item) {
     var products = this.state.PRODUCTS;
@@ -81,7 +72,7 @@ class Product extends React.Component {
       return product;
     });
     this.setState(newProducts);
-     this.firebaseRef.set(newProducts);
+  //   this.firebaseRef.set(newProducts);
     console.log(newProducts);
 
     //console.log(products);
