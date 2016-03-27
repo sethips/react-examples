@@ -82,13 +82,19 @@ class Product extends React.Component {
   handleUserInput(filterText) {
     this.setState({filterText: filterText});
   };
+
+  handleRowDel(prod) {
+    var index = this.state.PRODUCTS.indexOf(prod);
+    this.state.PRODUCTS.splice(index,1);
+    this.setState(this.state.PRODUCTS);
+  };
   render() {
 
     return (
       <div>
         <h1>
           <SearchBar filterText={this.state.filterText} onUserInput={this.handleUserInput.bind(this)}/>
-          <ProductTable onProductTableUpdate={this.handleProductTable.bind(this)} products={this.state.PRODUCTS} filterText={this.state.filterText}/>
+          <ProductTable onRowDel={this.handleRowDel.bind(this)} onProductTableUpdate={this.handleProductTable.bind(this)} products={this.state.PRODUCTS} filterText={this.state.filterText}/>
         </h1>
       </div>
     );
@@ -149,10 +155,12 @@ class ProductTable extends React.Component {
   }
 
   render() {
-    var k = this.props.onProductTableUpdate;
+    var onProductTableUpdate = this.props.onProductTableUpdate;
     var filterText = this.props.filterText;
+    var rowDel = this.props.onRowDel;
     return (
       <div>
+        <input  type="button" onClick={this.onAddEvent} value="add"/>
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -169,12 +177,13 @@ class ProductTable extends React.Component {
                 return;
               }
 
-              return (<ProductRow product={product} key={product.id} onProductEdit={k.bind(this)}/>)
+              return (<ProductRow product={product} key={product.id} onDelEvent={rowDel.bind(this)} onProductEdit={onProductTableUpdate.bind(this)}/>)
             })}
           </tbody>
 
         </table>
-        <input type="button" onClick={this.onAddEvent} value="add"/>
+
+
       </div>
     );
 
@@ -196,6 +205,14 @@ class ProductRow extends React.Component {
   }
   handleCellChange(item) {
     this.props.onProductEdit(item);
+    //  console.log(this.state.product);
+    //  this.forceUpdate();
+
+    //  console.log(item);
+  }
+
+  onDelEvent() {
+    this.props.onDelEvent(this.props.product);
     //  console.log(this.state.product);
     //  this.forceUpdate();
 
@@ -226,7 +243,9 @@ class ProductRow extends React.Component {
           value: this.props.product.category,
           id: this.props.product.id
         }}/>
-
+      <td>
+      <input type="button" onClick={this.onDelEvent.bind(this)} value="del"/>
+      </td>
       </tr>
     );
 
