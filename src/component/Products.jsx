@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import firebase from 'firebase';
 class Products extends React.Component {
 
   constructor(props) {
@@ -7,47 +8,22 @@ class Products extends React.Component {
     //  this.state.products = [];
     this.state = {};
     this.state.filterText = "";
-    this.state.products = [
-      {
-        id: 1,
-        category: 'Sporting Goods',
-        price: '49.99',
-        qty: 12,
-        name: 'Football'
-      }, {
-        id: 2,
-        category: 'Sporting Goods',
-        price: '9.99',
-        qty: 15,
-        name: 'Baseball'
-      }, {
-        id: 3,
-        category: 'Sporting Goods',
-        price: '29.99',
-        qty: 14,
-        name: 'Basketball'
-      }, {
-        id: 4,
-        category: 'Electronics',
-        price: '99.99',
-        qty: 34,
-        name: 'iPod Touch'
-      }, {
-        id: 5,
-        category: 'Electronics',
-        price: '399.99',
-        qty: 12,
-        name: 'iPhone 5'
-      }, {
-        id: 6,
-        category: 'Electronics',
-        price: '199.99',
-        qty: 23,
-        name: 'Nexu 7'
-      }
-    ];
+    this.state.products = [];
 
   }
+  componentWillMount() {
+    this.firebaseRef = new Firebase("https://crackling-inferno-7161.firebaseio.com/");
+    //  this.firebaseRef.set(this.state.PRODUCTS);
+    this.firebaseRef.on("value", function(dataSnapshot) {
+      //  this.state.PRODUCTS.push(dataSnapshot.val());
+      this.state.products = dataSnapshot.val();
+      this.setState(this.state.products);
+      //  console.log("loading data ");
+      console.log(dataSnapshot.val());
+
+    }.bind(this));
+  };
+
   handleUserInput(filterText) {
     this.setState({filterText: filterText});
   };
@@ -94,6 +70,7 @@ class Products extends React.Component {
       return product;
     });
     this.setState(newProducts);
+    this.firebaseRef.set(newProducts);
     console.log(this.state.products);
   };
   render() {
@@ -140,8 +117,7 @@ class ProductTable extends React.Component {
     return (
       <div>
 
-
-      <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
+        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
         <table className="table table-bordered">
           <thead>
             <tr>
