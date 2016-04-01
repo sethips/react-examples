@@ -117,7 +117,6 @@ class ProductTable extends React.Component {
     return (
       <div>
 
-        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
         <table className="table table-bordered">
           <thead>
             <tr>
@@ -134,6 +133,8 @@ class ProductTable extends React.Component {
           </tbody>
 
         </table>
+        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success">Add</button>
+
       </div>
     );
 
