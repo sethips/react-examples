@@ -1,49 +1,38 @@
-import React from 'react'
+import React from 'react';
+
+var LineChart = require("react-chartjs").Line;
+
 class Products extends React.Component {
 
   constructor(props) {
     super(props);
-
     //  this.state.products = [];
     this.state = {};
     this.state.filterText = "";
+    this.state.lineData = {};
+
     this.state.products = [
       {
         id: 1,
-        category: 'Sporting Goods',
-        price: '49.99',
-        qty: 12,
-        name: 'Football'
+        x: 1,
+        y: 1
       }, {
         id: 2,
-        category: 'Sporting Goods',
-        price: '9.99',
-        qty: 15,
-        name: 'Baseball'
-      }, {
-        id: 3,
-        category: 'Sporting Goods',
-        price: '29.99',
-        qty: 14,
-        name: 'Basketball'
-      }, {
-        id: 4,
-        category: 'Electronics',
-        price: '99.99',
-        qty: 34,
-        name: 'iPod Touch'
-      }, {
-        id: 5,
-        category: 'Electronics',
-        price: '399.99',
-        qty: 12,
-        name: 'iPhone 5'
-      }, {
-        id: 6,
-        category: 'Electronics',
-        price: '199.99',
-        qty: 23,
-        name: 'Nexu 7'
+        x: 2,
+        y: 4
+      }
+    ];
+    var data = this.state.products.map(function(data) {
+
+      return ({x: data.x, y: data.y});
+
+    });
+  //  console.log(data);
+
+    this.state.lineData = [
+      {
+        label: "series1",
+        values: data
       }
     ];
 
@@ -61,15 +50,14 @@ class Products extends React.Component {
     var id = (+ new Date() + Math.floor(Math.random() * 999999)).toString(36);
     var product = {
       id: id,
-      name: "",
-      price: "",
-      category: "",
-      qty: 0
+      x: 0,
+      y: 0
     }
 
     console.log("button clicket");
     this.state.products.push(product);
     this.setState(this.state.products);
+
 
   }
 
@@ -94,14 +82,95 @@ class Products extends React.Component {
       return product;
     });
     this.setState(newProducts);
-    console.log(this.state.products);
+    var x = this.state.products.map(function(data) {
+
+      return (data.x);
+
+    });
+    var y = this.state.products.map(function(data) {
+
+      return (data.y);
+
+    });
+  //  console.log(  this.state.lineData);
+
+
+    this.state.lineData = {
+    labels: x,
+    datasets: [
+        {
+            label: "y",
+
+            data: y,
+        }
+    ]
+};
+this.forceUpdate();
+    console.log(this.state.lineData);
   };
+
+
+
   render() {
+var datum=     function getDatum(j) {
+   var sin = [],
+       cos = [];
+
+   for (var i = 0; i < 100; i++) {
+     sin.push({x: i, y: Math.sin(i/j)});
+     cos.push({x: i, y: .5 * Math.cos(i/j)});
+   }
+
+   return [
+     {
+       values: sin,
+       key: 'Sine Wave',
+       color: '#ff7f0e'
+     },
+     {
+       values: cos,
+       key: 'Cosine Wave',
+       color: '#2ca02c'
+     }
+   ];
+ }
+var chartOptions = {
+
+               legend: {
+                   position: 'bottom',
+               },
+               hover: {
+                   mode: 'label'
+               },
+               scales: {
+                   xAxes: [{
+                       display: true,
+                       scaleLabel: {
+                           display: true,
+                           labelString: 'x'
+                       }
+                   }],
+                   yAxes: [{
+                       display: true,
+                       scaleLabel: {
+                           display: true,
+                           labelString: 'y'
+                       }
+                   }]
+               },
+               title: {
+                   display: true,
+                   text: 'Chart.js Line Chart - Legend'
+               }
+           }
 
     return (
       <div>
         <SearchBar filterText={this.state.filterText} onUserInput={this.handleUserInput.bind(this)}/>
         <ProductTable onProductTableUpdate={this.handleProductTable.bind(this)} onRowAdd={this.handleAddEvent.bind(this)} onRowDel={this.handleRowDel.bind(this)} products={this.state.products} filterText={this.state.filterText}/>
+
+         <LineChart data={this.state.lineData} options={chartOptions} redraw />
+
       </div>
     );
 
@@ -132,23 +201,19 @@ class ProductTable extends React.Component {
     var rowDel = this.props.onRowDel;
     var filterText = this.props.filterText;
     var product = this.props.products.map(function(product) {
-      if (product.name.indexOf(filterText) === -1) {
-        return;
-      }
+
       return (<ProductRow onProductTableUpdate={onProductTableUpdate} product={product} onDelEvent={rowDel.bind(this)} key={product.id}/>)
     });
     return (
       <div>
 
-
-      <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
+        <button type="button" onClick={this.props.onRowAdd} className="btn btn-success pull-right">Add</button>
         <table className="table table-bordered">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>price</th>
-              <th>quantity</th>
-              <th>category</th>
+              <th>x</th>
+              <th>y</th>
+
             </tr>
           </thead>
 
@@ -175,25 +240,16 @@ class ProductRow extends React.Component {
     return (
       <tr className="eachRow">
         <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          "type": "name",
-          value: this.props.product.name,
+          "type": "x",
+          value: this.props.product.x,
           id: this.props.product.id
         }}/>
         <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          type: "price",
-          value: this.props.product.price,
+          type: "y",
+          value: this.props.product.y,
           id: this.props.product.id
         }}/>
-        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          type: "qty",
-          value: this.props.product.qty,
-          id: this.props.product.id
-        }}/>
-        <EditableCell onProductTableUpdate={this.props.onProductTableUpdate} cellData={{
-          type: "category",
-          value: this.props.product.category,
-          id: this.props.product.id
-        }}/>
+
         <td className="del-cell">
           <input type="button" onClick={this.onDelEvent.bind(this)} value="X" className="del-btn"/>
         </td>
@@ -215,4 +271,5 @@ class EditableCell extends React.Component {
   }
 
 }
+
 export default Products;
