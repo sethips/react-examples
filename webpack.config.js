@@ -4,7 +4,7 @@ var webpack = require('webpack');
 module.exports = {
   devtool: 'eval',
   entry: [
-    'webpack-dev-server/client?http://localhost:3000', 'webpack/hot/only-dev-server', './src/index'
+    'webpack-dev-server/client?http://react-example-shqc9.c9users.io', 'webpack/hot/only-dev-server', './src/index'
   ],
   output: {
     path: path.join(__dirname, 'dist'),
