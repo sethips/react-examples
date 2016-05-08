@@ -5,8 +5,6 @@ import $ from 'jquery';
 var count = 0;
 var temp = {};
 
-
-
 var refreshIntervalId = setInterval(function() {
 
     $.ajax({
@@ -21,7 +19,7 @@ var refreshIntervalId = setInterval(function() {
             }
         },
         error: function(xhr, status, err) {
-
+            //handle error
         }
     });
     count = count + 1;

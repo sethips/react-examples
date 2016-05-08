@@ -24,11 +24,11 @@ class Products extends React.Component {
       datasets: [{
         label: 'Humidity',
         data: this.state.y,
-        fillColor: 'rgba(75,192,192,0.4)'
+        fillColor: 'rgba(255, 177, 0, 0.4)'
       }, {
         label: 'Temperature',
         data: this.state.z,
-        fillColor: 'rgba(255,99,132,0.2)'
+        fillColor: 'rgba(75,192,192,0.4)'
       }]
     };
     var radaroptions = {
@@ -45,7 +45,7 @@ class Products extends React.Component {
         label: 'y',
 
         data: this.state.y,
-        fillColor: 'rgba(75,192,192,0.4)'
+        fillColor: 'rgba(255, 177, 0, 0.4)'
       }]
     };
     console.log(this.state.z);
@@ -55,7 +55,7 @@ class Products extends React.Component {
         label: 'y',
 
         data: this.state.z,
-        fillColor: 'rgba(255,99,132,0.2)'
+        fillColor: 'rgba(75,192,192,0.4)'
       }]
     };
 
@@ -101,7 +101,7 @@ class Products extends React.Component {
         </div>
         <div style={{float: 'right', maxWidth: 50 + '%', marginTop: 100 + 'px'}}>
         <RadarChart data={this.state.radarData} options={chartOptions} width='600' height='450' redraw/>
-        <p style={{marginTop:20+'px', textAlign: 'center'}}>
+        <p style={{marginTop:30+'px', textAlign: 'center'}}>
         &copy; Techdojo |<a href="https://github.com/tech-dojo/react-examples/tree/sensor-graph"> GitHub </a>|<a href="https://twitter.com/dojo_tech"> Twitter </a>|</p>
         </div>
        </div>
