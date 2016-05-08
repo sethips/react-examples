@@ -102,7 +102,7 @@ class Products extends React.Component {
         <div style={{float: 'right', maxWidth: 50 + '%', marginTop: 100 + 'px'}}>
         <RadarChart data={this.state.radarData} options={chartOptions} width='600' height='450' redraw/>
         <p style={{marginTop:20+'px', textAlign: 'center'}}>
-        &copy; Techdojo |<a href=""> GitHub </a>|<a href=""> Twitter </a>|</p>
+        &copy; Techdojo |<a href="https://github.com/tech-dojo/react-examples/tree/sensor-graph"> GitHub </a>|<a href="https://twitter.com/dojo_tech"> Twitter </a>|</p>
         </div>
        </div>
       </div>
